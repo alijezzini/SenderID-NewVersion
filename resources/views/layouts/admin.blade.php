@@ -21,7 +21,7 @@
         <link rel="stylesheet" type ="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
         <style>
         body{
-           background-color: #E9ECEF;
+           background-color: #F7F7F7;
         }
 
         </style>

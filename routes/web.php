@@ -23,11 +23,18 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->middlewa
 Route::get('/home',  [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('welcome');
 
 Route::get('/vendornotes',[App\Http\Controllers\noteController::class, 'index'])->middleware('auth')->name('searchnote');
+// Route::get('urlCountry/{key}',[App\Http\Controllers\senderController::class, 'getOperatorSecond']);
+Route::post('/getOperators',[App\Http\Controllers\noteController::class, 'getOperator']);
+
+Route::post('fetchnotes',[App\Http\Controllers\noteController::class, 'getnote']);
+
 Route::post('/deleteNotesFiles',[App\Http\Controllers\noteController::class, 'deleteNotesFiles']);
 Route::post('/editNote',[App\Http\Controllers\noteController::class, 'editNote']);
 Route::post('/deleteFile',[App\Http\Controllers\noteController::class, 'deleteFile']);
 Route::post('/deleteNote',[App\Http\Controllers\noteController::class, 'deleteNote']);
 Route::post('/submitNote',[App\Http\Controllers\noteController::class, 'submit']);
+
+
 
 Route::get('/addvendor', [App\Http\Controllers\vendorController::class, 'index'])->middleware('auth')->name('addvendor');
 Route::post('/submitVendor',[App\Http\Controllers\vendorController::class, 'submit']);
@@ -38,11 +45,11 @@ Route::post('/deleteVendor',[App\Http\Controllers\vendorController::class, 'dele
 
 
 Route::post('/submit',[App\Http\Controllers\senderController::class, 'submit']);
-Route::post('/getOperators',[App\Http\Controllers\senderController::class, 'getOperator']);
+
 Route::post('/deleteSender',[App\Http\Controllers\senderController::class, 'deleteSender']);
 Route::post('/editSender',[App\Http\Controllers\senderController::class, 'editSender']);
 Route::get('/fetchSenders',[App\Http\Controllers\SearchController::class, 'getsenderTable']);
-Route::get('/fetchSenders',[App\Http\Controllers\SearchController::class, 'getsenderTable']);
+
 
 
      /*    Search Senders only loading all vendor operator and sender             */
@@ -57,11 +64,5 @@ Route::get('searchsenders/lol', [App\Http\Controllers\SearchController::class, '
      /*    Search vendor notes only loading all vendor operator and sender             */
 Route::get('/searchvendornotes', [App\Http\Controllers\SearchController::class, 'searchallnotes'])->middleware('auth')->name('searchall');
 Route::get('/senders', [App\Http\Controllers\SearchController::class, 'searchsender'])->middleware('auth')->name('searchsender');
-
-Route::get('/fetchnotes',[App\Http\Controllers\SearchController::class, 'getnote']);
-
 Route::resource('column-searching', 'ColumnSearchingController');
 
-
-//Route::get('/pagination', [App\Http\Controllers\SearchController::class, 'searchall'])->middleware('auth')->name('searchall');
-//Route::get('searchsenders/fetch_data', [App\Http\Controllers\SearchController::class, 'fetch_data'])->middleware('auth')->name('searchall');

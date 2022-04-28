@@ -3,9 +3,13 @@
 @section('content')
 
 <style>
+    .toast {
+    top: 70px;
+}
     #overlay,
     #overlayDelete,
     #overlayEdit,
+    #loader,
     #adding {
         background: #ffffff;
         color: #666666;
@@ -21,10 +25,6 @@
         opacity: .80;
     }
 
-    .loader {
-        display: none;
-    }
-
     .spinner {
         margin: 0 auto;
         height: 64px;
@@ -34,6 +34,7 @@
         border-right-color: transparent;
         border-radius: 50%;
     }
+
 
     @keyframes rotate {
         0% {
@@ -81,7 +82,7 @@
     <div id="overlay" style="display:none;">
         <div class="spinner"></div>
         <br />
-        Loading Operators...
+        Operators Loading ...
     </div>
     <div id="overlayDelete" style="display:none;">
         <div class="spinner"></div>
@@ -98,19 +99,17 @@
         <br />
         Adding...
     </div>
-    <div class="loader">
-        {{-- <img src="abc.gif" alt="" style="width: 50px;height:50px;"> --}}
-    </div>
+
 
     <div id="ModalAdd" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ModalAddLabel"
-        aria-hidden="true">
+        aria-hidden="true"  >
         <form id="AddForm" method="post" action="submit" enctype="multipart/form-data">
             @csrf
             <div class="modal-dialog modal-lg">
-                <div class="modal-content">
+                <div class="modal-content" style="background-color: #E9ECEF">
                     <div class="modal-header">
-                        <h3 id="myModalLabel">Add</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
+                        <h3 id="myModalLabel">Add Sender</h3>
+                        {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button> --}}
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="hiddenvendor" name="vendor">
@@ -152,8 +151,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button class="btn btn-success" value="Add" id="add_btn"  type="submit">Add IN </button>
+                        <button type="button" class="btn" style="background-color: #747474;color:#ffebb5;cursor:pointer;font-size:11.5pt;font-weight:bold;" data-bs-dismiss="modal">Close</button>
+                        <br/>
+                        <button class="btn" value="Add" id="add_btn"  style="background-color: #138496;color:#ffebb5;font-weight:bold" type="submit">Save</button>
                     </div>
                 </div>
             </div>
@@ -163,12 +163,12 @@
         <form id="myForm" method="post" action="editSender">
             @csrf
             <div class="modal-dialog modal-lg">
-                <div class="modal-content">
+                <div class="modal-content" style="background-color: #E7E7E7">
                     <div class="modal-header">
                         <h3 id="myModalLabel">Edit Sender</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
+                        {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button> --}}
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body"  style="background-color: #E7E7E7">
                         <input type="hidden" name="sn_id" id="sn_id">
                         <input type="hidden" name="tr_row" id="tr_row">
                         <div class="form-group"><label for="senderid"><b>SenderID</b></label><input class="form-control"
@@ -181,8 +181,9 @@
                                 type="text" id="note" name="note" rows="3"></textarea></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="myFormSubmit" class="btn btn-success" type="submit">Save Changes</button>
+                        <button type="button" class="btn" style="background-color: #747474;color:#ffebb5;cursor:pointer;font-size:11.5pt;font-weight:bold;" data-bs-dismiss="modal">Close</button>
+                        <br/>
+                        <button id="myFormSubmit"   style="background-color: #138496;color:#ffebb5;font-weight:bold" class="btn" type="submit">Update</button>
                     </div>
                 </div>
             </div>
@@ -191,7 +192,7 @@
 
     <form id="search">
         @csrf
-        <div style="padding:1rem; background-color:whitesmoke;border-radius:10px;">
+        <div style="padding:1rem; background-color:rgba(233, 231, 231, 0.26);border-radius:5px;">
             <label><b>Select Country, Operator and Vendor</b></label>
             <div class="row">
 
@@ -230,21 +231,20 @@
                     </select>
                 </div>
             </div>
-        </div>
+     
         <div class="row" style="margin-bottom:2rem">
             <div class="col-md-10 py-2">
                 <div id="flash-message">
                     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                     @if(Session::has('alert-' . $msg))
-
                     <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close"
                             data-dismiss="alert" aria-label="close">&times;</a></p>
                     @endif
                     @endforeach
                 </div>
             </div>
-            <div class="col-md-2 py-2">
-                <button style="float:right" class="btn btn-info btn-lg">Search</button>
+            <div class="col-md-2 py-2" style="margin-top:1rem">
+                <button id="submitbutton" style="float:right" class="btn btn-info btn-lg">Search</button>
             </div>
         </div>
     </form>
@@ -252,13 +252,13 @@
     <div id="lol" style="display:none">
         <hr>
         <div class="row">
-            <div class="col-md-12" style="color:green"><span id="addspan" style="cursor:pointer"><b><i
-                            class="fas fa-plus"></i> Add</b></span></div>
-        </div>
+            <div class="col-md-12" style="color:green"><span id="addspan" style="cursor:pointer"><b>
+                <i class="fas fa-plus"></i> Add</b></span></div>
+            </div>
         <div class="card-body" id="showall">
         </div>
     </div>
-
+</div>
 
     <script>
         $(document).ready(function() {
@@ -268,13 +268,18 @@
                 });
 
         function fetchSenders() {
+            // $('#loader').fadeIn();
+            $("#submitbutton").text('Searching...');
             $.ajax({
                 type: 'GET',
                 url: '/fetchSenders',
                 data: $('#search').serialize(),
                 success: function(response) {
+                    // $('#loader').fadeOut();
                     document.getElementById('lol').style.display = 'block';
+                 
                 $("#showall").html(response);
+                $("#submitbutton").text('Search');
                 $('#example').DataTable({
                   "scrollX": true,
                    dom: 'lfr<"toolbar">tip',
@@ -304,7 +309,7 @@
                 title: 'Please select atleast one record to delete.',
                 icon: 'warning',
                 confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Ok, Sir!'
+                confirmButtonText: 'Ok'
           })
             }  else {  
                 
@@ -340,6 +345,7 @@
 
    
         $("#countryselect").on('change', function() {
+            $('#overlay').fadeIn();
             var country = $('#countryselect').find(":selected").text();
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -356,7 +362,7 @@
                 dataType: 'JSON',
                 /* remind that 'data' is the response of the AjaxController */
                 success: function(data) {
-                 
+                    $('#overlay').fadeOut();
                     $('#operatorselect').empty();
                     $('#operatorselect').prepend('<option value="" disabled="disabled" selected>Select Operator</option>');
                     $.each(data, function(key, val) {
@@ -393,6 +399,7 @@
              } );
 
             $("#myModal").submit(function(e){
+                $("#myFormSubmit").text('Updating...');
                 e.preventDefault();
                 $('#myModal').modal('hide');
                 $('#overlayEdit').fadeIn();
@@ -417,6 +424,7 @@
                             success: function(dat) {
                                 console.log(dat)
                                 fetchSenders();
+                                $("#myFormSubmit").text('Update');
                                 $('#overlayEdit').fadeOut();
                                 toastr.info("Updaded successfully!");
                             }
@@ -451,7 +459,7 @@
         $("#AddForm").submit(function(event){
                   event.preventDefault();
                   const fd = new FormData(this);
-                  $("#add_btn").text('Adding...');
+                  $("#add_btn").text('Saving...');
                   $('#ModalAdd').modal('hide');
                       $('#adding').fadeIn();
                                   $.ajax({
@@ -466,17 +474,24 @@
                                     console.log(data.sender);
                                     if(data.success == true){
                                     fetchSenders();
+                                   
                                     $("#AddForm")[0].reset();
-                                    $("#add_btn").text('Add');
+                                    
+                                    $("#add_btn").text('Save');
+                                    $("#AddForm")[0].reset();
                                       toastr.success(data.message);
                                     $('#adding').fadeOut();
                                     } else {
-                                        toastr.error(err.message);
+                                        toastr.error(data.message);
+                                        $("#AddForm")[0].reset();
+                                        $('#adding').fadeOut();
+                                        $("#add_btn").text('Save'); 
                                     }
                                 },                        
                                 error: function(err){
                                     toastr.error("Error with Server!");
                                        $('#adding').fadeOut();
+                                       $("#add_btn").text('Save');
                                 },
                                   
                             })

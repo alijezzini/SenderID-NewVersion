@@ -15,22 +15,16 @@ use Log;
 class senderController extends Controller
 {
     function index(){
+
         $countries= Operator::select('country')->groupBy('country')->orderBy('country')->get()->toArray() ;
         $vendors = Vendor::select('vn_id','vendor')->orderBy('vendor')->get()->toArray() ;
         return view('addsender',['countries'=>$countries,'vendors'=>$vendors]);
     }
-    public function c(Request $request)
-    {
-        
-        $input = $request->all();
-        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $out->writeln($req);  
-        Log::info($input);
-     
-        return response()->json(['success'=>'Got Simple Ajax Request.']);
-    }
+    
+
 
     function submit(Request $req){
+
         if($req->radiocheck == "add"){
                 $sender = new sender;
                 $sender->senderid =  $req->senderid;
@@ -42,22 +36,16 @@ class senderController extends Controller
                 $sender->created_by = Auth::user()->name;
                 $sender->save();
                 $selectedOptions = [$req->country,$req->operator,$req->vendor];
-        // $req->session()->flash('selectedOptions',$selectedOptions);
-        // $req->session()->flash('operators',Session::get('tempoperators'));
-        // $req->session()->flash('alert-success', 'Sender Successfully Added!');
+
         return response()->json([
                 'success'=> true,
                 'status' => 200,
-                'message' => 'Sender Successfully Added!',
+                'message' => ' Notes Successfully Added!',
                 'sender' => $sender
             ]);
             
-        // return redirect()->route('searchsender');
-        // return response()->json($sender);
-        // return $sender;
         }
-
-        else if($req->radiocheck == "import"){
+         else if($req->radiocheck == "import"){
 
             $message = "Sheet Successfully Imported";
             $color = "alert-success";
@@ -87,21 +75,39 @@ class senderController extends Controller
                     $sender->vendor = $req->vendor;
                     $sender->created_by = Auth::user()->name;
                     $sender->save();
+                    return response()->json([
+                        'success'=> true,
+                        'status' => 200,
+                        'message' => ' File Added Successfully!',
+                        'note' => $sender,
+                 ]);
                  }
              }
              else{
-                $message = "Sender ID can't be empty at row ".($rowcounter+2);
-                $color = "alert-danger";
+
+                return response()->json([
+                    'success'=> false,
+                    'status' => 200,
+                    'message' => 'Sender ID can not be empty at row',
+                ]);
              }
         }
         else{
-            $message = "Please import .xlsx file";
-            $color = "alert-danger";
+
+            return response()->json([
+                'success'=> false,
+                'status' => 200,
+                'message' => 'Please import .xlsx file',
+            ]);
         }
     }
     catch(\Exception $e){
-        $message = "Invalid Sheet Content";
-            $color = "alert-danger";
+     
+        return response()->json([
+            'success'=> false,
+            'status' => 200,
+            'message' => 'Invalid Sheet Content!',
+        ]);
     }
         $selectedOptions = [$req->country,$req->operator,$req->vendor];
         $req->session()->flash('selectedOptions',$selectedOptions);
@@ -109,7 +115,7 @@ class senderController extends Controller
             $req->session()->flash($color, $message);
             // return redirect()->route('searchsender');
             return response()->json([
-                'success'=> true,
+                'success'=> false,
                 'status' => 200,
                 'message' => 'Sender Successfully Added!',
             ]);
@@ -117,16 +123,7 @@ class senderController extends Controller
     }
 
     
-    function getOperator(Request $req){
-        $operators = DB::table('operators')->where('country', $req->country)->get();
-        if($req->page =="searchsender"){
-        Session::put('tempoperators', $operators);
-        }
-        if($req->page =="searchnote"){
-            Session::put('notetempoperators', $operators);
-        }
-        return response()->json($operators);
-    }
+
 
 
     function deleteSender(Request $req){
