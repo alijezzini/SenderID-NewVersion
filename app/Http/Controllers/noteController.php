@@ -107,9 +107,9 @@ function getnote(Request $req){
         $output .= '  <h4>Notes</h4>';
         foreach ($notes as $note) {
         $output .= '  
-         <div id="note_row_'.$note->nt_id.'" style="padding:1rem; background-color:#E7E7E7;border-radius:10px;margin-bottom:0.5rem;border: 1px solid grey;">
+         <div id="note_row_'.$note->nt_id.'" style="max-height:100px; overflow-y: scroll; padding:1rem; background-color:#E7E7E7;border-radius:10px;margin-bottom:0.5rem;border: 1px solid grey;">
            <div class="row">
-              <div class="col-md-10"><span ><pre id="notecontent_'.$note->nt_id.'">'. $note->note .' </pre></span></div>
+              <div class="col-md-10"><span ><div id="notecontent_'.$note->nt_id.'">'. $note->note .' </div></span></div>
                <div class="col-md-2"><div class="btn-group" style="float:right">
                     <i class="fas fa-edit icon-edit"  data-val="' .$note->nt_id .'" style="margin-right:5px;color:green;cursor:pointer;font-size:18pt"></i>
                     <i class="fas fa-trash-alt note icon-delete icon-delete-note"  data-val="'. $note->nt_id .'" style="margin-left:5px;color:#ef3535;cursor:pointer;font-size:18pt"></i>

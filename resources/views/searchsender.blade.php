@@ -301,7 +301,7 @@
         var idsArr = [];  
             $(".checkbox:checked").each(function() {  
                 idsArr.push($(this).attr('data-id'));
-                console.log(idsArr);
+                // console.log(idsArr);
             });  
             if(idsArr.length <=0)  
             {   
@@ -422,13 +422,18 @@
                             dataType: 'JSON',
                             /* remind that 'data' is the response of the AjaxController */
                             success: function(dat) {
-                                console.log(dat)
+                                // console.log(dat)
                                 fetchSenders();
                                 $("#myFormSubmit").text('Update');
                                 $('#overlayEdit').fadeOut();
                                 toastr.info("Updaded successfully!");
                             }
                         });
+                        toastr.options = {
+                                "closeButton": true,
+                                "newestOnTop": true,
+                                "positionClass": "toast-top-right"
+                                };    
             });
             
                 $('#addspan').on( 'click', function (e) {
@@ -460,7 +465,7 @@
                   event.preventDefault();
                   const fd = new FormData(this);
                   $("#add_btn").text('Saving...');
-                  $('#ModalAdd').modal('hide');
+                //   $('#ModalAdd').modal('hide');
                       $('#adding').fadeIn();
                                   $.ajax({
                                 url: "submit",
@@ -471,7 +476,7 @@
                                 processData: false,
                                 dataType: 'json',                           
                                 success: function (data) {
-                                    console.log(data.sender);
+                                    // console.log(data.sender);
                                     if(data.success == true){
                                     fetchSenders();
                                    

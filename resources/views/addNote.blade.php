@@ -70,6 +70,12 @@
         background-color: white !important;
         border-color: lightgrey !important;
     }
+
+::-webkit-scrollbar {
+width: 0px; 
+}
+
+
 </style>
 
 
@@ -234,11 +240,12 @@
         <div class="col-md-12" style="text-align:center"><span >No Notes to Display</span></div>
     </div>
     </div>
+    
         @endif
         @foreach ($notes as $note)
-        <div id="note_row_{{$note->nt_id}}" style="padding:1rem;border: 1px solid #8d8d8d; background-color:#E7E7E7;border-radius:10px;margin-bottom:0.5rem">
+        <div id="note_row_{{$note->nt_id}}" style="max-height:100px; overflow-y: scroll; padding:1rem;border: 1px solid #8d8d8d; background-color:#E7E7E7;border-radius:10px;margin-bottom:0.5rem">
         <div class="row">
-        <div class="col-md-10"><span ><pre id="notecontent_{{$note->nt_id}}">{{ $note->note }}</pre></span></div>
+        <div class="col-md-10"><span ><div id="notecontent_{{$note->nt_id}}">{{ $note->note }}</div></span></div>
         <div class="col-md-2"><div class="btn-group" style="float:right">
                     <i class="fas fa-edit icon-edit"  data-val="{{$note->nt_id}}" style="margin-right:5px;color:green;cursor:pointer;font-size:18pt"></i>
                     <i class="fas fa-trash-alt note icon-delete icon-delete-note"  data-val="{{$note->nt_id}}" style="margin-left:5px;color:#ef3535;cursor:pointer;font-size:18pt"></i>
@@ -303,7 +310,7 @@
                   event.preventDefault();
                   const fd = new FormData(this);
                   $("#myFormSubmitadd").text('Adding...');
-                  $('#ModalAdd').modal('hide');
+                //   $('#ModalAdd').modal('hide');
             
                                   $.ajax({
                                 url: "submitNote",
@@ -314,7 +321,7 @@
                                 processData: false,
                                 dataType: 'json',                           
                                 success: function (data) {
-                                    console.log(data);
+                                    // console.log(data);
                                     if(data.success == true){
                                     fetchAll();
                                     $("#AddForm")[0].reset();
@@ -371,7 +378,7 @@
                             .append($("<option></option>")
                                 .attr("value", val.op_id)
                                 .text(val.operator));
-                                  console.log(val.operator);
+                                //   console.log(val.operator);
                     })
                 }
             });
@@ -436,7 +443,6 @@
     
 } );
 $(document).on('click', '#addspan', function(e) {
- 
             $("#hiddencountry").val($( "#countryselect" ).val()) ;
            $("#hiddenoperator").val($( "#operatorselect" ).val()) ;
            $("#hiddenvendor").val($( "#vendorselect" ).val()) ;
@@ -478,10 +484,17 @@ $("#ModalEdit").submit(function(e){
                     var nt_id = data[0];
                     var value = data[1];
                     $('#notecontent_'+nt_id).text(value);
+                    toastr.info("Updaded successfully!");
                     $("#myFormSubmit").text('Update');
                     $('#overlayEdit').fadeOut();
+
                 }
             });
+            toastr.options = {
+                                "closeButton": true,
+                                "newestOnTop": true,
+                                "positionClass": "toast-top-right"
+                                };    
   });
     });
     @if(Session::has ('message'))

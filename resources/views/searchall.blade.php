@@ -39,6 +39,7 @@
 
         #mytable23 {
             height: 60vh
+            
         }
 
         td  { 
@@ -46,13 +47,16 @@
          color: rgb(10, 39, 77);
          font-weight:600;
          background-color: #E7E7E7;
+         
         }
 
         tr  { 
          font-size: 17px;
          color: #001e5f;
          font-weight: bold;
+         
          background-color: #E7E7E7;
+         
         }
         
         #overlay {
@@ -78,6 +82,21 @@
             border-right-color: transparent;
             border-radius: 50%;
         }
+        /* #example thead tr th{
+            border: 14px solid;
+            
+        }  */
+        /* .table th {
+border-top: 2px solid #001e5f;
+
+
+}
+.table td {
+border-top: 1px solid #001e5f;
+}
+.form-control {
+border-bottom: 2px solid #001e5f;
+} */
     </style>
 </head>
 
@@ -91,8 +110,8 @@
     </div>
     <div class="ff">
         <h3 style="margin-bottom:2rem">Search All Senders</h3>
-        <div class="table table-responsive table-hover cont">
-            <table id="example" class="table table-striped table-bordered d" style="width:100%">
+
+            <table bordercolor="#001e5f" id="example" class="table table-striped table-bordered d" style="width:100%">
                 <thead>
                     <tr>
                         <th>SenderID</th>
@@ -106,7 +125,7 @@
                 </thead>
             </table>
     
-        </div>
+  
         <script>
             $(document).ready(function() {
 
