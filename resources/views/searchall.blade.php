@@ -20,59 +20,48 @@
     </script>
 
     <style>
-        .ff {
+        .Outside {
             padding-right: 6%;
             padding-left: 6%;
-            padding-bottom: 0.1%;
-            padding-top: 2.1%;
+            padding-bottom: 0.2%;
+            padding-top: 1%;
         }
-
-        .cont {
-            width: 100%;
+        .btnexcel
+        {
+            display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid green; 
         }
-
-        .d {
+        .Tabl {
             background-color: #F7F7F7;
-            /* table-layout: fixed !important; */
             word-wrap: break-word;
         }
 
         #mytable23 {
             height: 60vh
-            
         }
 
-        td  { 
-         font-size: 14px;
-         color: rgb(10, 39, 77);
-         font-weight:600;
-         background-color: #E7E7E7;
-         
-        }
+        /* .pagination>li {
+            padding-top: 1%;
 
-        tr  { 
-         font-size: 17px;
-         color: #001e5f;
-         font-weight: bold;
-         
-         background-color: #E7E7E7;
-         
-        }
-        
+        } */
+
         #overlay {
-        background: #ffffff;
-        color: #666666;
-        position: fixed;
-        height: 100%;
-        width: 100%;
-        z-index: 5000;
-        top: 0;
-        left: 0;
-        float: left;
-        text-align: center;
-        padding-top: 25%;
-        opacity: .80;
+            background: #ffffff;
+            color: #666666;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            z-index: 5000;
+            top: 0;
+            left: 0;
+            float: left;
+            text-align: center;
+            padding-top: 25%;
+            opacity: .80;
         }
+
         .spinner {
             margin: 0 auto;
             height: 64px;
@@ -82,24 +71,8 @@
             border-right-color: transparent;
             border-radius: 50%;
         }
-        /* #example thead tr th{
-            border: 14px solid;
-            
-        }  */
-        /* .table th {
-border-top: 2px solid #001e5f;
-
-
-}
-.table td {
-border-top: 1px solid #001e5f;
-}
-.form-control {
-border-bottom: 2px solid #001e5f;
-} */
     </style>
 </head>
-
 <body>
     <div style="margin-left:2rem;margin-right:2rem">
         <div id="overlay">
@@ -108,24 +81,28 @@ border-bottom: 2px solid #001e5f;
             Loading Table...
         </div>
     </div>
-    <div class="ff">
+    <div class="Outside">
         <h3 style="margin-bottom:2rem">Search All Senders</h3>
-
-            <table bordercolor="#001e5f" id="example" class="table table-striped table-bordered d" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>SenderID</th>
-                        <th>Content</th>
-                        <th>Website</th>
-                        <th>Note</th>
-                        <th>Operator</th>
-                        <th>Vendor</th>
-                        <th>Country</th>
-                    </tr>
-                </thead>
-            </table>
-    
-  
+        <table bordercolor="#001e5f" id="example" class="table table-striped table-bordered Tabl" style="width:100%">
+            <col style="width:5%">
+            <col style="width:25%">
+            <col style="width:15%">
+            <col style="width:25%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <col style="width:10%">
+            <thead>
+                <tr>
+                    <th>SenderID</th>
+                    <th>Content</th>
+                    <th>Website</th>
+                    <th>Note</th>
+                    <th>Operator</th>
+                    <th>Vendor</th>
+                    <th>Country</th>
+                </tr>
+            </thead>
+        </table>
         <script>
             $(document).ready(function() {
 
@@ -146,25 +123,21 @@ border-bottom: 2px solid #001e5f;
         } );
     } );
     var table = $('#example').DataTable({
-        
-                "autoWidth": false, // might need this
-           
-                "initComplete": function(settings, json) {
-                        $('#overlay').delay(1000).fadeOut();
+        "serverside": true,     
+        "dataSrc": "tableData",
+        "bDestroy": true,
+        "autoWidth": true, // might need this
+        "select": true,
+        "scrollX": true,
+        "orderCellsTop": true,
+        "fixedHeader": true,
+        "initComplete": function(settings, json) {
+                        $('#overlay').fadeOut();
                     },
-                "select": true,
-                "scrollX": true,
-                "orderCellsTop": true,
-                "fixedHeader": true,
-                "language": {
-                        "emptyTable": "No files to show..."
+        "language": {
+           "emptyTable": "No files to show..."
                     },
-                    "serverside": true,
-                 
-                    "dataSrc": "tableData",
-                    "bDestroy": true,
-
-                "columns":  [
+                    "columns":  [
                     {  "data":"senderid",
                         "name": "senderid",
                         "width": "10%",
@@ -196,12 +169,24 @@ border-bottom: 2px solid #001e5f;
                  ],
    
              "ajax": "{{ url('searchsenders/lol')}}",
-  
+        dom: 'lBfrtip',
+        buttons: [
+            {
+        text: 'Export Excel',
+        extend: 'excelHtml5',
+        exportOptions: {
+            columns: ':visible',
+            page: 'all'
+            },
+        className:'btn btn-success btnexcel'
+            }
+        ],
             });
       
         });
 
-</script>
+        </script>
 </body>
+
 </html>
 @endsection
