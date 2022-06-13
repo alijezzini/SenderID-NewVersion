@@ -33,12 +33,12 @@ class SearchController extends Controller
             ->join('vendors', 'vendors.vn_id', '=', 'senders.vendor')
             ->get();
 
-        $all = DataTables::of($senders, $countries, $vendors)
+
     
-            ->toJson();
+        
 
       //Log::error('Return Message2=> ', $all);
-        return $all;
+        return $countries;
  
 
     }
