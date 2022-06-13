@@ -33,11 +33,12 @@ class SearchController extends Controller
             ->join('vendors', 'vendors.vn_id', '=', 'senders.vendor')
             ->get();
 
-        $all = DataTables::of($senders, $countries, $vendors)
+        $all = Datatables::of($senders, $countries, $vendors)
             ->addIndexColumn()
             ->make(true);
 
         //Log::error('Return Message2=> ', $all);
+
         return $all;
     }
 

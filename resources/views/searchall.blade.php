@@ -144,7 +144,7 @@
 
     
     var table = $('#example').DataTable({
-        "serverside": true,     
+        "serverside": false,     
         "dataSrc": "tableData",
         "bDestroy": true,
         "autoWidth": true, // might need this
