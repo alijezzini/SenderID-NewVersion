@@ -170,7 +170,7 @@
                  ],
    
                  ajax:{
-               'url' : '{{ url("/searchsenders/lol") }}',
+               'url' : '{{ url(" http://52.211.206.246:81/searchsenders/lol") }}',
             'type': 'GET',
             'data': function ( d ) {
                 d._token = "{{ csrf_token() }}";
