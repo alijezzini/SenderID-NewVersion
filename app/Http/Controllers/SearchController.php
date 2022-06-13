@@ -29,8 +29,7 @@ class SearchController extends Controller
               ->join('vendors', 'vendors.vn_id', '=', 'senders.vendor')
               ->get();
               return DataTables::of($senders,$countries,$vendors)
-             ->addIndexColumn()
-             ->make(true);
+             ->make();
     }
   }
 

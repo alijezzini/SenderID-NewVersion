@@ -56,7 +56,7 @@ Route::get('/fetchSenders',[App\Http\Controllers\SearchController::class, 'getse
 Route::get('/searchsenders', [App\Http\Controllers\SearchController::class, 'searchall'])
     ->middleware('auth')->name('searchall');
 Route::get('searchsenders/lol', [App\Http\Controllers\SearchController::class, 'lol'])
-    ->middleware('auth')->name('searchall');
+    ->name('searchall');
 
 
 
