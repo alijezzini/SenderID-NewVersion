@@ -171,7 +171,7 @@
                  ],
    
                  ajax: {
-            'url':'{!!url("searchsenders/lol")!!}',
+            'url':'{!!url("/searchsenders/lol")!!}',
             'type': 'GET',
             'headers': {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
