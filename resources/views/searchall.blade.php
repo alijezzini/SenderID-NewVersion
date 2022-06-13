@@ -168,7 +168,7 @@
                     },
                  ],
    
-             "ajax": "{{ url('searchsenders/lol')}}",
+                 ajax: "{{ route('all.list') }}",
         dom: 'lBfrtip',
         buttons: [
             {
