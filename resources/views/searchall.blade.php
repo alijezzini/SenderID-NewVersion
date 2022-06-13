@@ -26,13 +26,14 @@
             padding-bottom: 0.2%;
             padding-top: 1%;
         }
-        .btnexcel
-        {
+
+        .btnexcel {
             display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid green; 
+            justify-content: center;
+            align-items: center;
+            border: 1px solid green;
         }
+
         .Tabl {
             background-color: #F7F7F7;
             word-wrap: break-word;
@@ -73,6 +74,7 @@
         }
     </style>
 </head>
+
 <body>
     <div style="margin-left:2rem;margin-right:2rem">
         <div id="overlay">
@@ -168,7 +170,7 @@
                     },
                  ],
    
-             "ajax": "{{ url('searchsenders/lol')}}",
+             "ajax": "{{ url('/searchsenders/lol')}}",
         dom: 'lBfrtip',
         buttons: [
             {
