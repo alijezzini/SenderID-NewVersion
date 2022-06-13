@@ -21,7 +21,7 @@ class SearchController extends Controller
 
     public function lol(Request $request){
      
-        if($request->ajax()) {
+ 
     
              $countries= DB::table('operators')->select('country')->groupBy('country')->orderBy('country')->get()->toArray() ;
               $vendors = DB::table('vendors')->select('vendor')->orderBy('vendor')->get()->toArray() ;
@@ -34,7 +34,7 @@ class SearchController extends Controller
       
                  return DataTables::of($senders,$countries,$vendors)
               ->make(true);
-    }
+    
   }
 
         public function searchsender()
