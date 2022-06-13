@@ -119,7 +119,7 @@
             $(document).ready(function() {
 
     // Setup - add a text input to each footer cell
-
+    $.fn.dataTable.ext.errMode = 'throw';
     $('#example thead tr').clone(true).appendTo( '#example thead' );
     $('#example thead tr:eq(1) th').each( function (i) {
         var title = $(this).text();

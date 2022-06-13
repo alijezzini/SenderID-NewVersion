@@ -8,7 +8,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
-
+use Illuminate\Support\Facades\Log;
 class SearchController extends Controller
 {
 
@@ -20,16 +20,20 @@ class SearchController extends Controller
     }
 
     public function lol(Request $request){
+        Log::info('Message1=> ', $request->ajax());
         if($request->ajax()) {
-      
+    
              $countries= DB::table('operators')->select('country')->groupBy('country')->orderBy('country')->get()->toArray() ;
               $vendors = DB::table('vendors')->select('vendor')->orderBy('vendor')->get()->toArray() ;
               $senders = DB::table('senders')
               ->join('operators', 'operators.op_id', '=', 'senders.operator')
               ->join('vendors', 'vendors.vn_id', '=', 'senders.vendor')
               ->get();
+              Log::info('Message2=> ', DataTables::of($senders,$countries,$vendors)
+              ->make(true));
               return DataTables::of($senders,$countries,$vendors)
               ->make(true);
+         
     }
   }
 
