@@ -122,6 +122,7 @@
             }
         } );
     } );
+    $.fn.dataTable.ext.errMode = 'throw';
     var table = $('#example').DataTable({
         "serverside": true,     
         "dataSrc": "tableData",
