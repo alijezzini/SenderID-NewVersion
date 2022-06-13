@@ -170,7 +170,13 @@
                     },
                  ],
    
-             "ajax": "{{ url('/searchsenders/lol')}}",
+                 ajax: {
+            'url':'{!!url("searchsenders/lol")!!}',
+            'type': 'GET',
+            'headers': {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+            },
         dom: 'lBfrtip',
         buttons: [
             {
