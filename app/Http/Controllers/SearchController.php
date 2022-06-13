@@ -22,15 +22,20 @@ class SearchController extends Controller
     public function lol(Request $request){
         if($request->ajax()) {
       
-             $countries= DB::table('operators')->select('country')->groupBy('country')->orderBy('country')->get()->toArray() ;
-              $vendors = DB::table('vendors')->select('vendor')->orderBy('vendor')->get()->toArray() ;
+             $countries= DB::table('operators')->select('country')->groupBy('country')->orderBy('country')->latest()->get();
+              $vendors = DB::table('vendors')->select('vendor')->orderBy('vendor')->get()->latest()->get();
               $senders = DB::table('senders')
               ->join('operators', 'operators.op_id', '=', 'senders.operator')
               ->join('vendors', 'vendors.vn_id', '=', 'senders.vendor')
-              ->get();
+              ->latest()->get();
               return DataTables::of($senders,$countries,$vendors)
-             ->addIndexColumn()
-             ->make(true);
+              ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
     }
   }
 
