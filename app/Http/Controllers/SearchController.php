@@ -29,7 +29,7 @@ class SearchController extends Controller
               ->join('operators', 'operators.op_id', '=', 'senders.operator')
               ->join('vendors', 'vendors.vn_id', '=', 'senders.vendor')
               ->get();
-              Log::info('Message2=> ', DataTables::of($senders,$countries,$vendors)
+              Log::error('Return Message2=> ', DataTables::of($senders,$countries,$vendors)
               ->make(true));
               return DataTables::of($senders,$countries,$vendors)
               ->make(true);
