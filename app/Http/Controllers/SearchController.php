@@ -20,7 +20,7 @@ class SearchController extends Controller
     }
 
     public function lol(Request $request){
-        Log::info('Message1=> ', $request->ajax());
+     
         if($request->ajax()) {
     
              $countries= DB::table('operators')->select('country')->groupBy('country')->orderBy('country')->get()->toArray() ;
@@ -31,9 +31,9 @@ class SearchController extends Controller
               ->get();
               Log::error('Return Message2=> ', DataTables::of($senders,$countries,$vendors)
               ->make(true));
-              return DataTables::of($senders,$countries,$vendors)
+      
+                 return DataTables::of($senders,$countries,$vendors)
               ->make(true);
-         
     }
   }
 
