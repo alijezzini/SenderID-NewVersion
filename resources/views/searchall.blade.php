@@ -168,7 +168,13 @@
                     },
                  ],
    
-                 ajax: "{{ route('all.list') }}",
+                 ajax:{
+               'url' : '{{ url("/searchsenders/lol") }}',
+            'type': 'GET',
+            'data': function ( d ) {
+                d._token = "{{ csrf_token() }}";
+
+            },},
         dom: 'lBfrtip',
         buttons: [
             {
