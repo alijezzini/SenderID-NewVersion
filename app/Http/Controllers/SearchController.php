@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class SearchController extends Controller
 {
@@ -25,21 +26,26 @@ class SearchController extends Controller
     {
 
 
-
-        $countries = DB::table('operators')->select('country')->groupBy('country')->orderBy('country')->get()->toArray();
-        $vendors = DB::table('vendors')->select('vendor')->orderBy('vendor')->get()->toArray();
-        $senders = DB::table('senders')
-            ->join('operators', 'operators.op_id', '=', 'senders.operator')
-            ->join('vendors', 'vendors.vn_id', '=', 'senders.vendor')
-            ->get();
-
-        $all = Datatables::of($senders, $countries, $vendors)
-            ->addIndexColumn()
-            ->make(true);
-
-        //Log::error('Return Message2=> ', $all);
-
-        return $all;
+        try {
+            $countries = DB::table('operators')->select('country')->groupBy('country')->orderBy('country')->get()->toArray();
+            $vendors = DB::table('vendors')->select('vendor')->orderBy('vendor')->get()->toArray();
+            $senders = DB::table('senders')
+                ->join('operators', 'operators.op_id', '=', 'senders.operator')
+                ->join('vendors', 'vendors.vn_id', '=', 'senders.vendor')
+                ->get();
+    
+            $all = Datatables::of($senders, $countries, $vendors)
+                ->addIndexColumn()
+                ->make(true);
+    
+            //Log::error('Return Message2=> ', $all);
+    
+            return $all;
+            
+        } catch (Exception $e) {
+          return $e->getMessage();
+        }
+   
     }
 
     public function searchsender()
