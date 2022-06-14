@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Operator;
 use App\Models\Vendor;
 use App\Models\Sender;
-use Yajra\DataTables\DataTables;
+use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
@@ -33,7 +33,7 @@ class SearchController extends Controller
             ->join('vendors', 'vendors.vn_id', '=', 'senders.vendor')
             ->get();
 
-        $all = DataTables::of($senders, $countries, $vendors)
+        $all = Datatables::of($senders, $countries, $vendors)
             ->addIndexColumn()
             ->make(true);
 
