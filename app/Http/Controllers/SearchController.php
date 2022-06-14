@@ -43,7 +43,7 @@ class SearchController extends Controller
             return $all;
             
         } catch (Exception $e) {
-          return $e->getMessage();
+          echo 'Error: ', $e->getMessage();
         }
    
     }
