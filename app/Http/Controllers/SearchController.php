@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Operator;
 use App\Models\Vendor;
 use App\Models\Sender;
-use Yajra\Datatables\Datatables;
+use yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
