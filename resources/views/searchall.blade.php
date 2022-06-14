@@ -190,7 +190,7 @@
                  ],
    
             //  "ajax": "{{ url('searchsenders/lol')}}",
-            ajax: { url:'searchsenders/lol',type:'post',"datatype": "json",data: { '_token': token } },
+            ajax: {route('blog.getData') ,type:'post',"datatype": "json",data: { '_token': token } },
         dom: 'lBfrtip',
         buttons: [
             {
