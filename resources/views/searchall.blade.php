@@ -142,7 +142,7 @@
         } );
     } );
 
-    
+    var token = '{{ csrf_token() }}';
     var table = $('#example').DataTable({
         "serverside": false,     
         "dataSrc": "tableData",
@@ -189,7 +189,8 @@
                     },
                  ],
    
-             "ajax": "{{ url('searchsenders/lol')}}",
+            //  "ajax": "{{ url('searchsenders/lol')}}",
+            ajax: { url:'searchsenders/lol',type:'post',"datatype": "json",data: { '_token': token } },
         dom: 'lBfrtip',
         buttons: [
             {
