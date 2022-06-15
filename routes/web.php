@@ -61,7 +61,7 @@ Route::get('searchsenders/lol', [App\Http\Controllers\SearchController::class, '
 
 
      /*    Search vendor notes only loading all vendor operator and sender             */
-Route::get('/searchvendornotes', [App\Http\Controllers\SearchController::class, 'searchallnotes'])->middleware('auth')->name('searchall');
+ Route::get('/searchvendornotes', [App\Http\Controllers\SearchController::class, 'searchallnotes'])->middleware('auth')->name('searchall');
 Route::get('/senders', [App\Http\Controllers\SearchController::class, 'searchsender'])->middleware('auth')->name('searchsender');
 Route::resource('column-searching', 'ColumnSearchingController');
 
