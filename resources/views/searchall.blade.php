@@ -127,6 +127,11 @@
 
     // Setup - add a text input to each footer cell
     $.fn.dataTable.ext.errMode = 'throw';
+    $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
     $('#example thead tr').clone(true).appendTo( '#example thead' );
     $('#example thead tr:eq(1) th').each( function (i) {
         var title = $(this).text();

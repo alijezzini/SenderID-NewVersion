@@ -24,7 +24,9 @@ class SearchController extends Controller
 
     public function lol(Request $request)
     {
-
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
 
         try {
             $countries = DB::table('operators')->select('country')->groupBy('country')->orderBy('country')->get()->toArray();
