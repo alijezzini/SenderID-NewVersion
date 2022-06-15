@@ -25,10 +25,8 @@ class SearchController extends Controller
     public function lol(Request $request)
     {
         ini_set('memory_limit', '500M');
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);
-      
+
+
 
         try {
             $countries = DB::table('operators')->select('country')->groupBy('country')->orderBy('country')->get()->toArray();
@@ -37,19 +35,17 @@ class SearchController extends Controller
                 ->join('operators', 'operators.op_id', '=', 'senders.operator')
                 ->join('vendors', 'vendors.vn_id', '=', 'senders.vendor')
                 ->get();
-    
+
             $all = Datatables::of($senders, $countries, $vendors)
                 ->addIndexColumn()
                 ->make(true);
-    
+
             //Log::error('Return Message2=> ', $all);
-    
+
             return $all;
-            
         } catch (Exception $e) {
-          echo 'Error: ', $e->getMessage();
+            echo 'Error: ', $e->getMessage();
         }
-   
     }
 
     public function searchsender()
