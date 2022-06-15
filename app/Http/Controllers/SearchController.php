@@ -24,7 +24,7 @@ class SearchController extends Controller
 
     public function lol(Request $request)
     {
-        ini_set('memory_limit','-1'); // enabled the full memory available.
+        ini_set('memory_limit', '500M');
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
