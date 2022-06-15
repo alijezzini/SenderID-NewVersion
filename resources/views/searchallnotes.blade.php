@@ -17,6 +17,8 @@
         text-align: center;
         padding-top: 25%;
         opacity: .80;
+        max-width: 100%;
+    overflow-x: hidden;
     }
 
     .spinner {
@@ -103,75 +105,70 @@
             @endforeach
 
         </tbody>
-        <tfoot>
-            <tr>
-                <th></th>
-                <th>Country</th>
-                <th>Operator</th>
-                <th>Vendor</th>
-                <th>Notes</th>
-                <th>Files</th>
-            </tr>
-        </tfoot>
     </table>
 </div>
 <script>
-    $(document).ready(function() {
-    // Setup - add a text input to each footer cell
 
- 
-    var table = $('#example').DataTable({
-            "scrollX": true,
-            "select": true,
-            dom: 'lfr<"toolbar">tip',
-            fnInitComplete: function(){
-           $('div.toolbar').html('<span id="delete" style="color:#ef3535;cursor:pointer;font-size:13pt;font-weight:bold"><i class="fas fa-trash-alt icon-delete" ></i> Delete</span>');
-         }
-        });
-
-        $("#checkAll").click(function(){
-            $('input:checkbox').not(this).prop('checked', this.checked);
-        });
-        $('#delete').click(function() {
-            var idsArr = [];  
-            $(".checkbox:checked").each(function() {  
-                idsArr.push($(this).attr('data-id'));
-                console.log(idsArr);
-            });  
-            if(idsArr.length <=0)  
-            {  
-                alert("Please select atleast one record to delete.");  
-            }  else {  
-                if(confirm("Are you sure, you want to delete the selected Rows?")){  
-                    $('#overlayDelete').fadeIn();
-                    var strIds = idsArr.join(","); 
-                    $.ajax({
-                        url: 'deleteNotesFiles',
-                type: 'POST',
-                /* send the csrf-token and the input to the controller */
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "nf_ids": strIds,
-                },
-                dataType: 'JSON',
-                        success: function (data) {
-                                $(".checkbox:checked").each(function() {  
-                                    var tr=$(this).parents("tr").remove();
-                                    table.row(tr).remove().draw();
-                                });
-                                $("#checkAll").prop("checked", false);
-                                $('#overlayDelete').fadeOut();
-                        },
-                    });
-                }  
-            }  
-        });
     $(document).ready(function() {
-    
-        $('#btnSun').submit(function(event){
-        event.preventDefault();  
-        }
-        
+        // Setup - add a text input to each footer cell
+        var table = $('#example').DataTable({
+            orderCellsTop: true,
+            fixedHeader: true,
+                "scrollX": true,
+                "pagination": true,
+                dom: 'lfr<"toolbar">tip',
+                fnInitComplete: function(){
+               $('div.toolbar').html('<span id="delete" style="color:#ef3535;cursor:pointer;font-size:13pt;font-weight:bold"><i class="fas fa-trash-alt icon-delete" ></i> Delete</span>');
+             }
+            }); 
+            $("#checkAll").click(function(){
+        $('input:checkbox').not(this).prop('checked', this.checked);
     });
-</script>
+    $('#delete').click(function() {
+                var idsArr = [];  
+                $(".checkbox:checked").each(function() {  
+                    idsArr.push($(this).attr('data-id'));
+                    console.log(idsArr);
+                });  
+                if(idsArr.length <=0)  
+                {  
+                    alert("Please select atleast one record to delete.");  
+                }  else {  
+                    if(confirm("Are you sure, you want to delete the selected Vendors?")){  
+                        $('#overlayDelete').fadeIn();
+                        var strIds = idsArr.join(","); 
+                        $.ajax({
+                            url: 'deleteNotesFiles',
+                    type: 'POST',
+                    /* send the csrf-token and the input to the controller */
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "nf_ids": strIds,
+                    },
+                    dataType: 'JSON',
+                            success: function (data) {
+                                if(data=="success"){
+                                    $(".checkbox:checked").each(function() {  
+                                        var tr=$(this).parents("tr").remove();
+                                        table.row(tr).remove().draw();
+                                    });
+                                    $('#overlayDelete').fadeOut();
+                                }
+                                else{
+                                    $('#overlayDelete').fadeOut();
+                                    var string = "Vendors: (";
+                                    data.forEach(function(item,index){
+                                        string = string + item;
+                                        if (data[index + 1]) string = string+", ";
+                                    });
+                                    string = string+") has linked tables."
+                                    alert(string);
+                                }
+                            },
+                        });
+                    }  
+                }  
+            });
+    } );
+    </script>
 @endsection

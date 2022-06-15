@@ -265,6 +265,8 @@ function getnote(Request $req){
         return response()->json($resp);
     }
     function deleteNotesFiles(Request $req){
+        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $out->writeln($req->nf_ids);
         $ids = explode(",",$req->nf_ids);
         foreach($ids as $vn_op){
             $arr = explode("_",$vn_op);

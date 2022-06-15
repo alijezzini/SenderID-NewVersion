@@ -155,8 +155,6 @@ class senderController extends Controller
                     ]);
                     
         $resp = [$req->senderid,$req->content,$req->website,$req->note,$req->tr_row];
-        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $out->writeln($resp);  
         return response()->json($resp);
     }
 }

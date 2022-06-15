@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\File;
+use App\Models\File;
 use App\Imports\VendorsImport;
 use App\Models\Note;
 use App\Models\Sender;
@@ -78,6 +78,8 @@ class vendorController extends Controller
         $ids = explode(",",$req->vn_ids);
         $restricted = array();
         foreach($ids as $vn_id){
+            $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+            $out->writeln($req->vn_ids);  
             $file = File::where('vendor', '=', $vn_id)->first();
             $note = Note::where('vendor', '=', $vn_id)->first();
             $sender = Sender::where('vendor', '=', $vn_id)->first();
